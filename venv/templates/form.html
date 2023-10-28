@@ -1,0 +1,20 @@
+<form action='/' method='post'>
+    <label for="x">Podaj liczbę:</label>
+    <input type='number' name='x' min='2' max='30' required>
+    <label for="color1">Wybierz kolor 1:</label>
+    <select id="color1" name="color1">
+        <option value="pink">Różowy</option>
+        <option value="green">Zielony</option>
+        <option value="black">Czarny</option>
+        <option value="yellow">Żółty</option>
+    </select>
+    <label for="color2">Wybierz kolor 2:</label>
+    <input type='color' name='color2'>
+    <input type='submit' value='Generuj tabliczkę'>
+</form>
+<br>
+{% if table %}
+    <div>
+        {{ table | safe }}
+    </div>
+{% endif %}
