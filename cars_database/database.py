@@ -76,7 +76,7 @@ def show_cars(conn):
 def get_car_details(conn, id_car):
     try:
         cursor = conn.cursor()
-        cursor.execute('''SELECT * FROM cars WHERE id_car=?''', (id_car,))
+        cursor.execute('''SELECT * FROM cars WHERE id_car=?''', id_car)
         car = cursor.fetchone()
         return car
     except Error as e:
