@@ -1,0 +1,203 @@
+<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='style.css') }}"/>
+{%if route == '/' %}
+<head>
+    <h1>Samochody</h1>
+</head>
+<body>
+    <img src='https://prod.assets.earlygamecdn.com/images/Fortnite-Reboot-Van-System-change.jpg?transform=article2x_webp' alt='Reboot Van' width=600 height=300>
+    <br><br>
+    <form action='/' method='GET'>
+        <input type='submit' value='Pokaż samochody'>
+    </form>
+        {% if show_cars %}
+        <table border align>
+            <tr>
+                <th>ID</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Rok produkcji</th>
+                <th>Pojemność silnika</th>
+                <th>Przebieg</th>
+                <th>Moc</th>
+                <th>Kolor</th>
+                <th>Typ nadwozia</th>
+            </tr>
+                {% for car in cars %}
+                <tr>
+                    <td>{{ car[0] }}</td>
+                    <td>{{ car[1] }}</td>
+                    <td>{{ car[2] }}</td>
+                    <td>{{ car[3] }}</td>
+                    <td>{{ car[4] }}</td>
+                    <td>{{ car[5] }}</td>
+                    <td>{{ car[6] }}</td>
+                    <td>{{ car[7] }}</td>
+                    <td>{{ car[8] }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+        <br>
+        {% endif %}
+    <form action='/ukryj_samochody' method='GET'>
+        <input type='submit' value='Ukryj samochody'>
+    </form>
+
+    <form action="/dodaj_samochod" method="GET">
+        <input type="submit" value="Dodaj samochód">
+    </form>
+
+    <form action="/usun_samochod" method="GET">
+        <input type="submit" value="Usuń samochód">
+    </form>
+
+    <form action="/modyfikuj_samochod" method="GET">
+        <input type="submit" value="Modyfikuj samochód">
+    </form>
+</body>
+
+{% elif route == 'dodaj_samochod' %}
+    <form action='/dodaj_samochod' method='POST'>
+            <label for='brand_add'>Marka:</label>
+            <input type='text' id='brand_add' name='brand' style='text-transform: capitalize;' required><br><br>
+
+            <label for='model_add'>Model:</label>
+            <input type='text' id='model_add' name='model' style='text-transform: capitalize;' required><br><br>
+
+            <label for='year_add'>Rok produkcji:</label>
+            <input type='number' id='year_add' name='year' min='1900' max='2023' required><br><br>
+
+            <label for='engine_capacity_add'>Pojemność silnika (w litrach):</label>
+            <input type='number' step = 0.1 min='0' id='engine_capacity_add' name='engine_capacity' required><br><br>
+
+            <label for='mileage_add'>Przebieg:</label>
+            <input type='number' min='0' id='mileage_add' name='mileage' required><br><br>
+
+            <label for='horsepower_add'>Moc:</label>
+            <input type='number' min='0' id='horsepower_add' name='horsepower' required><br><br>
+
+            <label for='color_add'>Kolor:</label>
+            <select id='color_add' name='color' required>
+                {% set colors = ['Biały', 'Czarny', 'Srebrny', 'Złoty', 'Niebieski', 'Czerwony', 'Zielony', 'Żółty', 'Różowy'] %}
+                {% for color in colors %}
+                    <option value='{{ color }}'>{{ color }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for='body_type_add'>Typ nadwozia:</label>
+            <select id='body_type_add' name='body_type' required>
+                {% set body_types = ['Sedan', 'Hatchback', 'SUV', 'Kombi', 'Coupe', 'Kabriolet', 'Minivan', 'Van'] %}
+                {% for body_type in body_types %}
+                    <option value='{{ body_type }}'>{{ body_type }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <input type='submit' value='Dodaj samochód'>
+        </form>
+
+{% elif route == 'usun_samochod' %}
+
+    <form action='/usun_samochod' method='POST'>
+        <table border align>
+            <tr>
+                <th>Wybór</th>
+                <th>ID</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Rok produkcji</th>
+                <th>Pojemność silnika</th>
+                <th>Przebieg</th>
+                <th>Moc</th>
+                <th>Kolor</th>
+                <th>Typ nadwozia</th>
+            </tr>
+                {% for car in cars %}
+                <tr>
+                    <td><input type='radio' name='car_to_delete' value='{{ car[0] }}'></td>
+                    <td>{{ car[0] }}</td>
+                    <td>{{ car[1] }}</td>
+                    <td>{{ car[2] }}</td>
+                    <td>{{ car[3] }}</td>
+                    <td>{{ car[4] }}</td>
+                    <td>{{ car[5] }}</td>
+                    <td>{{ car[6] }}</td>
+                    <td>{{ car[7] }}</td>
+                    <td>{{ car[8] }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+        <br>
+        <input type='submit' value='Usuń zaznaczony samochód'>
+    </form>
+
+{% elif route == 'modyfikuj_samochod' %}
+
+    <form action='/modyfikuj_samochod' method='POST'>
+            <table border align>
+            <tr>
+                <th>Wybór</th>
+                <th>ID</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Rok produkcji</th>
+                <th>Pojemność silnika</th>
+                <th>Przebieg</th>
+                <th>Moc</th>
+                <th>Kolor</th>
+                <th>Typ nadwozia</th>
+            </tr>
+                {% for car in cars %}
+                <tr>
+                    <td><input type='radio' name='car_to_update' value='{{ car[0] }}'></td>
+                    <td>{{ car[0] }}</td>
+                    <td>{{ car[1] }}</td>
+                    <td>{{ car[2] }}</td>
+                    <td>{{ car[3] }}</td>
+                    <td>{{ car[4] }}</td>
+                    <td>{{ car[5] }}</td>
+                    <td>{{ car[6] }}</td>
+                    <td>{{ car[7] }}</td>
+                    <td>{{ car[8] }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+        <br>
+
+        <label for='brand_add'>Marka:</label>
+        <input type='text' id='brand_update' name='brand' class='uppercase-input'><br><br>
+
+        <label for='model_update'>Model:</label>
+        <input type='text' id='model_update' name='model' class='uppercase-input'><br><br>
+
+        <label for='year_update'>Rok produkcji:</label>
+        <input type='number' id='year_update' name='year' min='1900' max='2023'><br><br>
+
+        <label for='engine_capacity_update'>Pojemność silnika (w litrach):</label>
+        <input type='number' step = 0.1 id='engine_capacity_update' name='engine_capacity'><br><br>
+
+        <label for='mileage_update'>Przebieg:</label>
+        <input type='number' id='mileage_update' name='mileage'><br><br>
+
+        <label for='horsepower_update'>Moc:</label>
+        <input type='number' id='horsepower_update' name='horsepower'><br><br>
+
+        <label for='color_update'>Kolor:</label>
+        <select id='color_update' name='color' required>
+            {% set colors = ['Biały', 'Czarny', 'Srebrny', 'Złoty', 'Niebieski', 'Czerwony', 'Zielony', 'Żółty', 'Różowy'] %}
+            {% for color in colors %}
+                <option value='{{ color }}'>{{ color }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for='body_type_update'>Typ nadwozia:</label>
+        <select id='body_type_update' name='body_type'>
+            {% set body_types = ['Sedan', 'Hatchback', 'SUV', 'Kombi', 'Coupe', 'Kabriolet', 'Minivan', 'Van'] %}
+            {% for body_type in body_types %}
+                <option value='{{ body_type }}'>{{ body_type }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type='submit' value='Modyfikuj samochód'>
+    </form>
+{% else %}
+    {{ route }}
+{% endif %}
