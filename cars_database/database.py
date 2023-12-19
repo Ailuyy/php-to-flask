@@ -51,6 +51,7 @@ def update_data(conn, id_car, brand, model, year, engine_capacity, car_mileage, 
         conn.cursor().execute('''UPDATE cars SET brand=?, model=?, year=?, engine_capacity=?, 
         car_mileage=?, horsepower=?, color=?, body_type=? WHERE id_car=?''', (brand, model, year, engine_capacity, car_mileage, horsepower, color, body_type, id_car))
         conn.commit()
+        conn.close()
         print('Data updated successfully')
     except Error as e:
         print(e)
@@ -69,6 +70,7 @@ def show_cars(conn):
         cursor = conn.cursor()
         cursor.execute('''SELECT * FROM cars''')
         cars = cursor.fetchall()
+        conn.close()
         return cars
     except Error as e:
         print(e)

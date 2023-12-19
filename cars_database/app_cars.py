@@ -20,8 +20,8 @@ def hide_cars():
 @app.route('/dodaj_samochod', methods=['GET', 'POST'])
 def add_car():
     if request.method == 'POST':
-        brand = request.form['brand']
-        model = request.form['model']
+        brand = request.form['brand'].title()
+        model = request.form['model'].title()
         year = request.form['year']
         engine_capacity = request.form['engine_capacity'].replace(',', '.')
         mileage = request.form['mileage']
@@ -55,8 +55,8 @@ def update_car():
             conn = database.create_conn()
             car = database.get_car_details(conn, car_to_update)
 
-            brand = request.form['brand'] if request.form['brand'] else car[1]
-            model = request.form['model'] if request.form['model'] else car[2]
+            brand = request.form['brand'].title() if request.form['brand'] else car[1]
+            model = request.form['model'].title() if request.form['model'] else car[2]
             year = request.form['year'] if request.form['year'] else car[3]
             engine_capacity = request.form['engine_capacity'].replace(',', '.') if request.form['engine_capacity'] else car[4]
             mileage = request.form['mileage'] if request.form['mileage'] else car[5]
